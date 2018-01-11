@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write ./**/*.js ./*.js"
+    "prettier": "prettier --write ./**/*.js ./*.js",
+    "build": "webpack ./demo/tmpl.js ./demo/app.js -w"
   },
   "author": "hudk",
   "license": "ISC",
@@ -17,7 +18,8 @@
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.15.0",
     "pre-commit": "^1.2.2",
-    "prettier": "1.9.2"
+    "prettier": "1.9.2",
+    "webpack": "^3.10.0"
   },
   "pre-commit": ["prettier"]
 }

@@ -2,17 +2,19 @@
 
 var intercept = require('../intercept.js');
 
-// Object.keys(intercept).forEach(key => console.log(key))
-console.log(intercept);
-
 intercept.init({
   addDOM: function addDOM() {},
   removeDOM: function removeDOM() {},
-
   testEle: (function() {
     return document.getElementById('test');
   })(),
-  height: 30
+  height: 100
+  // judgeHeight: function judgeHeight() {
+  //   if (document.getElementById('test').offsetHeight > 44) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 });
 
 var test =
