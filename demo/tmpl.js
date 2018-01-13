@@ -1,8 +1,9 @@
 'use strict';
 
-var intercept = require('../intercept.js');
+var intercept = require('../src/intercept.js');
 
 intercept.init({
+  gap: 1,
   addDOM: function addDOM() {},
   removeDOM: function removeDOM() {},
   testEle: (function() {

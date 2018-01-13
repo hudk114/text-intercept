@@ -75,27 +75,36 @@ var bisection = function bisection(val, startIndex, endIndex, judgeFunc, n, opti
 var judgeHeight = function judgeHeight(val, options) {
   var ele = options.testEle;
   ele.innerText = val;
-  return ele.offsetHeight <= 30; // options.height;
+  return ele.offsetHeight <= options.height;
 };
 
 /**
- * core func for step forward algorithm
- * @param {string} rawVal raw val
- * @param {number} index the default index
- * @param {number} gap the gap for step forward
+ * step forward algorithm
+ * @param {string} rawVal raw string
+ * @param {number} startIndex start index, always less than the true val
+ * @param {function} judgeHeight cb
+ * @param {object} options options
+ * @returns {number} index
  */
-var computeAdd = function computeAdd(rawVal, index, gap) {
-  var i = index === null ? 0 : index;
-  return {
-    v: rawVal.substr(0, i + gap),
-    index: i + gap
-  };
+const stepFor = function stepFor(rawVal, startIndex, judgeHeight, options) {
+  var i = startIndex === null ? 0 : null;
+  if (i === 0) {
+    return i;
+  }
+
+  let v = rawVal.substr(0, i);
+  while(judgeHeight(v, options)) {
+    i += options.gap;
+    v = rawVal.substr(0, i);
+  }
+  return i - options.gap;
 };
 
 /**
  * convert text
  * @param {string} val raw value
- * @param {Object} options options
+ * @param {object} options options
+ * @param {string} the intercepted txt
  */
 var convertText = function convertText(val, options) {
   if (judgeHeight(val, options)) {
@@ -107,16 +116,13 @@ var convertText = function convertText(val, options) {
 
   // bisection
   var index = bisection(v, 0, v.length, judgeHeight, computeN(options.gap), options);
-  v = val.substr(0, index);
+  // v = val.substr(0, index);
 
   // get the real by step forward
-  while (judgeHeight(v, options)) {
-    var tmp = computeAdd(val, index, options.gap);
-    v = tmp.v;
-    index = tmp.index;
-  }
+  index = stepFor(val, index, judgeHeight, options);
+
   // TODO 注入自己的substr方法
-  v = v.substr(0, index - options.gap);
+  v = v.substr(0, index);
   // v = `${mySubStr(v.substr(0, index - CONFIG.gap), 6)}...`;
 
   return v;
@@ -135,8 +141,9 @@ var intercept = (function intercept() {
       options.testEle = testEle;
     },
 
-    /** the core func of the module
-     *  @param {Array} list text list contains all the text that need intercept
+    /** 
+     * the core func of the module
+     * @param {array} list text list contains all the text that need intercept
      */
     exec: function exec(list) {
       if (judgeIfIsFunc(options, 'addDOM')) {

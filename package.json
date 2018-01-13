@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write ./**/*.js ./*.js",
-    "build": "webpack ./demo/tmpl.js ./demo/app.js -w"
+    "build": "webpack ./demo/tmpl.js ./demo/app.js",
+    "build-w": "webpack ./demo/tmpl.js ./demo/app.js -w"
   },
   "author": "hudk",
   "license": "ISC",
