@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write ./**/*.js ./*.js",
+    "prettier": "prettier --write ./src/*.js",
     "build": "webpack ./demo/tmpl.js ./demo/app.js",
     "build-w": "webpack ./demo/tmpl.js ./demo/app.js -w"
   },

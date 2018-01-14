@@ -9,12 +9,10 @@ intercept.init({
   testEle: (function() {
     return document.getElementById('test');
   })(),
-  height: 100
-  // judgeHeight: function judgeHeight() {
-  //   if (document.getElementById('test').offsetHeight > 44) {
-  //     return false;
-  //   }
-  //   return true;
+  height: 40,
+  // judgeHeight(val) {
+  //   document.getElementById('test').innerText = val;
+  //   return document.getElementById('test').offsetHeight <= 40;
   // }
 });
 
@@ -30,3 +28,24 @@ console.log(res);
 // const removeDOM = function removeDOM() {
 //     $testOutter.hide();
 // };
+
+const getDOMproperty = function getDOMproperty(id, key) {
+  const ele = document.getElementById(id);
+  var r = null;
+  if (ele && ele[key]) {
+    // TODO maybe no need?
+    r = JSON.parse(JSON.stringify(ele[key]));
+  }
+  return r;
+};
+
+const bind = function bind() {
+  document.getElementById('button').addEventListener('click', () => {
+    var text = getDOMproperty('testInput', 'value');
+    console.log(text);
+  });
+};
+
+window.onload = () => {
+  bind();
+};
