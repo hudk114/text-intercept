@@ -97,7 +97,7 @@ var intercept = (function intercept() {
     }
 
     let v = rawVal.substr(0, i);
-    while(judgeHeight(v)) {
+    while (judgeHeight(v)) {
       i += options.gap;
       v = rawVal.substr(0, i);
     }
@@ -152,26 +152,16 @@ var intercept = (function intercept() {
 
       var arr = [];
       arr.length = list.length;
-      list.forEach(
-        function(
-          item,
-          index
-        ) {
-          arr[
-            index
-          ] = convertText(
-            item,
-            options
-          );
-        }
-      );
+      list.forEach(function(item, index) {
+        arr[index] = convertText(item, options);
+      });
 
       if (judgeIfIsFunc(options, 'removeDOM')) {
         options.removeDOM();
       }
 
       return arr;
-    } 
+    }
   };
 })();
 

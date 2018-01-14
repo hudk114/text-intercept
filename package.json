@@ -22,5 +22,7 @@
     "prettier": "1.9.2",
     "webpack": "^3.10.0"
   },
-  "pre-commit": ["prettier"]
+  "pre-commit": [
+    "prettier"
+  ]
 }
