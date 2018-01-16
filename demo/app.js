@@ -74,30 +74,21 @@ var intercept = __webpack_require__(1);
 
 intercept.init({
   gap: 1,
-  addDOM: function addDOM() {},
-  removeDOM: function removeDOM() {},
+  // addDOM: function addDOM() {
+  //   document.getElementById('test').style = 'block';
+  // },
+  // removeDOM: function removeDOM() {
+  //   document.getElementById('test').style = 'none';    
+  // },
   testEle: (function() {
     return document.getElementById('test');
   })(),
-  height: 40,
-  // judgeHeight(val) {
-  //   document.getElementById('test').innerText = val;
-  //   return document.getElementById('test').offsetHeight <= 40;
-  // }
+  height: 70,
+  judgeHeight(val) {
+    document.getElementById('test').innerText = val;
+    return document.getElementById('test').offsetHeight <= 60;
+  }
 });
-
-var test =
-  '324523462392734623789065723046789023560678923450678234657823469756987235967823469785236947567892495678236847580267345623495169284915249152491625747123548127346512637496739461234512396746';
-
-var res = intercept.exec([test]);
-console.log(res);
-
-// const addDOM = function addDOM() {
-//     $testOutter.show();
-// };
-// const removeDOM = function removeDOM() {
-//     $testOutter.hide();
-// };
 
 const getDOMproperty = function getDOMproperty(id, key) {
   const ele = document.getElementById(id);
@@ -109,10 +100,20 @@ const getDOMproperty = function getDOMproperty(id, key) {
   return r;
 };
 
+const resetSize = function resetSize() {
+  var length = getDOMproperty('resultInput', 'style').width;
+  console.log(length);
+  document.getElementById('test').style.width = length;
+};
+
 const bind = function bind() {
   document.getElementById('button').addEventListener('click', () => {
+    resetSize();
     var text = getDOMproperty('testInput', 'value');
-    console.log(text);
+    var res = intercept.exec([text]);
+  
+    console.log(res);
+    document.getElementById('resultInput').value = res[0];
   });
 };
 
@@ -133,6 +134,7 @@ var OPTIONS = {
   testEle: null
 };
 
+// TODO 单例的options会互相冲突
 var intercept = (function intercept() {
   var options = {};
 
@@ -223,7 +225,7 @@ var intercept = (function intercept() {
     }
 
     let v = rawVal.substr(0, i);
-    while(judgeHeight(v)) {
+    while (judgeHeight(v)) {
       i += options.gap;
       v = rawVal.substr(0, i);
     }
@@ -237,7 +239,13 @@ var intercept = (function intercept() {
    * @param {string} the intercepted txt
    */
   var convertText = function convertText(val) {
-    if (judgeHeight(val)) {
+    var jH = null;
+    if (judgeIfIsFunc(options, 'judgeHeight')) {
+      jH = options.judgeHeight;
+    } else {
+      jH = judgeHeight;
+    }
+    if (jH(val)) {
       // needn't convert
       return;
     }
@@ -245,11 +253,11 @@ var intercept = (function intercept() {
     var v = val;
 
     // bisection
-    var index = bisection(v, 0, v.length, judgeHeight, computeN(options.gap));
+    var index = bisection(v, 0, v.length, jH, computeN(options.gap));
     // v = val.substr(0, index);
 
     // get the real by step forward
-    index = stepFor(val, index, judgeHeight);
+    index = stepFor(val, index, jH);
 
     // TODO 注入自己的substr方法
     v = v.substr(0, index);
@@ -260,7 +268,7 @@ var intercept = (function intercept() {
 
   return {
     init: function init(option) {
-      options = Object.assign({}, OPTIONS, options, option);
+      options = Object.assign({}, OPTIONS, option);
     },
     // bind new testEle
     bind: function bind(testEle) {
@@ -278,26 +286,16 @@ var intercept = (function intercept() {
 
       var arr = [];
       arr.length = list.length;
-      list.forEach(
-        function(
-          item,
-          index
-        ) {
-          arr[
-            index
-          ] = convertText(
-            item,
-            options
-          );
-        }
-      );
+      list.forEach(function(item, index) {
+        arr[index] = convertText(item);
+      });
 
       if (judgeIfIsFunc(options, 'removeDOM')) {
         options.removeDOM();
       }
 
       return arr;
-    } 
+    }
   };
 })();
 

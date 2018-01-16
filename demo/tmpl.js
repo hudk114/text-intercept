@@ -4,33 +4,24 @@ var intercept = require('../src/intercept.js');
 
 intercept.init({
   gap: 1,
-  addDOM: function addDOM() {},
-  removeDOM: function removeDOM() {},
-  testEle: (function() {
+  // addDOM: function addDOM() {
+  //   document.getElementById('test').style = 'block';
+  // },
+  // removeDOM: function removeDOM() {
+  //   document.getElementById('test').style = 'none';
+  // },
+  testEle: function () {
     return document.getElementById('test');
-  })(),
-  height: 40,
-  // judgeHeight(val) {
-  //   document.getElementById('test').innerText = val;
-  //   return document.getElementById('test').offsetHeight <= 40;
-  // }
+  }(),
+  height: 70,
+  judgeHeight: function judgeHeight(val) {
+    document.getElementById('test').innerText = val;
+    return document.getElementById('test').offsetHeight <= 60;
+  }
 });
 
-var test =
-  '324523462392734623789065723046789023560678923450678234657823469756987235967823469785236947567892495678236847580267345623495169284915249152491625747123548127346512637496739461234512396746';
-
-var res = intercept.exec([test]);
-console.log(res);
-
-// const addDOM = function addDOM() {
-//     $testOutter.show();
-// };
-// const removeDOM = function removeDOM() {
-//     $testOutter.hide();
-// };
-
-const getDOMproperty = function getDOMproperty(id, key) {
-  const ele = document.getElementById(id);
+var getDOMproperty = function getDOMproperty(id, key) {
+  var ele = document.getElementById(id);
   var r = null;
   if (ele && ele[key]) {
     // TODO maybe no need?
@@ -39,13 +30,23 @@ const getDOMproperty = function getDOMproperty(id, key) {
   return r;
 };
 
-const bind = function bind() {
-  document.getElementById('button').addEventListener('click', () => {
+var resetSize = function resetSize() {
+  var length = getDOMproperty('resultInput', 'style').width;
+  console.log(length);
+  document.getElementById('test').style.width = length;
+};
+
+var bind = function bind() {
+  document.getElementById('button').addEventListener('click', function () {
+    resetSize();
     var text = getDOMproperty('testInput', 'value');
-    console.log(text);
+    var res = intercept.exec([text]);
+
+    console.log(res);
+    document.getElementById('resultInput').value = res[0];
   });
 };
 
-window.onload = () => {
+window.onload = function () {
   bind();
 };

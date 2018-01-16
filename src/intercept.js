@@ -111,7 +111,13 @@ var intercept = (function intercept() {
    * @param {string} the intercepted txt
    */
   var convertText = function convertText(val) {
-    if (judgeHeight(val)) {
+    var jH = null;
+    if (judgeIfIsFunc(options, 'judgeHeight')) {
+      jH = options.judgeHeight;
+    } else {
+      jH = judgeHeight;
+    }
+    if (jH(val)) {
       // needn't convert
       return;
     }
@@ -119,11 +125,11 @@ var intercept = (function intercept() {
     var v = val;
 
     // bisection
-    var index = bisection(v, 0, v.length, judgeHeight, computeN(options.gap));
+    var index = bisection(v, 0, v.length, jH, computeN(options.gap));
     // v = val.substr(0, index);
 
     // get the real by step forward
-    index = stepFor(val, index, judgeHeight);
+    index = stepFor(val, index, jH);
 
     // TODO 注入自己的substr方法
     v = v.substr(0, index);
@@ -153,7 +159,7 @@ var intercept = (function intercept() {
       var arr = [];
       arr.length = list.length;
       list.forEach(function(item, index) {
-        arr[index] = convertText(item, options);
+        arr[index] = convertText(item);
       });
 
       if (judgeIfIsFunc(options, 'removeDOM')) {

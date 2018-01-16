@@ -12,14 +12,14 @@
   <form action="javascript:void(0);">
     <label for="testInput">input your test text here</label>
     <input type="text" id="testInput" />
-    <!-- < name="testInput" id="testInput" cols="30" rows="10"></textarea> -->
-    <div id="resultInput"></div>
-    <!-- <div id="test"></div> -->
   </form>
-  <div id="test" style="word-break:break-all;"></div>
-  <!-- <textarea id="test" /> -->
   <button id="button">click me</button>
+  <div>
+    <textarea id="resultInput" class="result-textarea" readonly></textarea>
+    <div id="test" class="test-div"></div>
+  </div>
   <script src="./app.js"></script>
+  <link rel="stylesheet" href="./style.css">
 </body>
 
 </html>

@@ -1,0 +1,9 @@
+.result-textarea,
+.test-div {
+  font-size: 20px;
+}
+
+.test-div {
+  word-break: break-all;
+  line-height: 1;
+}
