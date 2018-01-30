@@ -14,7 +14,7 @@ intercept.init({
     return document.getElementById('test');
   }(),
   height: 70,
-  judgeHeight: function judgeHeight(val) {
+  judgeHeight: function judgeHeight(ele, val, height) {
     document.getElementById('test').innerText = val;
     return document.getElementById('test').offsetHeight <= 60;
   }
