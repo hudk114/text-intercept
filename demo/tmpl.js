@@ -1,24 +1,36 @@
 'use strict';
 
-var intercept = require('../src/intercept.js');
-
-intercept.init({
+var Intercept = require('../src/intercept.js');
+var intercept = new Intercept({
   gap: 1,
-  // addDOM: function addDOM() {
-  //   document.getElementById('test').style = 'block';
-  // },
-  // removeDOM: function removeDOM() {
-  //   document.getElementById('test').style = 'none';
-  // },
   testEle: function () {
     return document.getElementById('test');
   }(),
   height: 70,
-  judgeHeight: function judgeHeight(ele, val, height) {
+  judgeHeight: function judgeHeight(val, ele, height) {
     document.getElementById('test').innerText = val;
     return document.getElementById('test').offsetHeight <= 60;
   }
-});
+})
+
+// var intercept = require('../src/intercept.js');
+// intercept.init({
+//   gap: 1,
+//   // addDOM: function addDOM() {
+//   //   document.getElementById('test').style = 'block';
+//   // },
+//   // removeDOM: function removeDOM() {
+//   //   document.getElementById('test').style = 'none';
+//   // },
+//   testEle: function () {
+//     return document.getElementById('test');
+//   }(),
+//   height: 70,
+//   judgeHeight: function judgeHeight(ele, val, height) {
+//     document.getElementById('test').innerText = val;
+//     return document.getElementById('test').offsetHeight <= 60;
+//   }
+// });
 
 var getDOMproperty = function getDOMproperty(id, key) {
   var ele = document.getElementById(id);
@@ -40,6 +52,7 @@ var bind = function bind() {
   document.getElementById('button').addEventListener('click', function () {
     resetSize();
     var text = getDOMproperty('testInput', 'value');
+    console.log(text)
     var res = intercept.exec([text]);
 
     console.log(res);
