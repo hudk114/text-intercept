@@ -4,12 +4,11 @@ var OPTIONS = {
   gap: 4,
   height: 0,
   testEle: null,
-  judgeHeight: function judgeHeight (ele, val, height) {
+  judgeHeight: function judgeHeight(ele, val, height) {
     ele.innerText = val;
     return ele.offsetHeight <= height;
   }
 };
-
 
 /**
  * judge obj[key] if function or not
@@ -101,7 +100,7 @@ const stepFor = function stepFor(rawVal, startIndex, judgeHeight) {
  */
 var convertText = function convertText(val, options) {
   var jH = options.judgeHeight;
-  
+
   if (jH(val)) {
     // needn't convert
     return;
@@ -123,23 +122,22 @@ var convertText = function convertText(val, options) {
   return v;
 };
 
-
 function Intercept(option) {
   this.options = Object.assign({}, OPTIONS, option);
 }
 
-Intercept.prototype.bind = function (testEle) {
-  this.options.testEle = testEle;  
+Intercept.prototype.bind = function(testEle) {
+  this.options.testEle = testEle;
 };
 
-Intercept.prototype.exec = function (testEle) {
+Intercept.prototype.exec = function(testEle) {
   if (judgeIfIsFunc(this.options, 'addDOM')) {
     this.options.addDOM();
   }
 
   var arr = [];
   arr.length = list.length;
-  list.forEach(function (item, index) {
+  list.forEach(function(item, index) {
     arr[index] = convertText(item);
   });
 
