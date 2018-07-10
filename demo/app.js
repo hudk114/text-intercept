@@ -83,25 +83,6 @@ var intercept = new Intercept({
   }
 })
 
-// var intercept = require('../src/intercept.js');
-// intercept.init({
-//   gap: 1,
-//   // addDOM: function addDOM() {
-//   //   document.getElementById('test').style = 'block';
-//   // },
-//   // removeDOM: function removeDOM() {
-//   //   document.getElementById('test').style = 'none';
-//   // },
-//   testEle: function () {
-//     return document.getElementById('test');
-//   }(),
-//   height: 70,
-//   judgeHeight: function judgeHeight(ele, val, height) {
-//     document.getElementById('test').innerText = val;
-//     return document.getElementById('test').offsetHeight <= 60;
-//   }
-// });
-
 var getDOMproperty = function getDOMproperty(id, key) {
   var ele = document.getElementById(id);
   var r = null;
@@ -220,13 +201,13 @@ var bisection = function bisection(val, startIndex, endIndex, judgeFunc, n, test
  * @param {object} options options
  * @returns {number} index
  */
-const stepFor = function stepFor(rawVal, startIndex, judgeHeight, testEle, height, gap) {
+var stepFor = function stepFor(rawVal, startIndex, judgeHeight, testEle, height, gap) {
   var i = startIndex === null ? 0 : null;
   if (i === 0) {
     return i;
   }
 
-  let v = rawVal.substr(0, i);
+  var v = rawVal.substr(0, i);
   while (judgeHeight(v, testEle, height)) {
     i += gap;
     v = rawVal.substr(0, i);
@@ -268,19 +249,21 @@ function Intercept(option) {
   this.options = Object.assign({}, OPTIONS, option);
 }
 
-Intercept.prototype.bind = function(testEle) {
+Intercept.prototype.bind = function (testEle) {
   this.options.testEle = testEle;
 };
 
-Intercept.prototype.exec = function(list) {
+Intercept.prototype.exec = function (list) {
+  var _this = this;
+
   if (judgeIfIsFunc(this.options, 'addDOM')) {
     this.options.addDOM();
   }
 
   var arr = [];
   arr.length = list.length;
-  list.forEach((item, index) => {
-    arr[index] = convertText(item, this.options);
+  list.forEach(function (item, index) {
+    arr[index] = convertText(item, _this.options);
   });
 
   if (judgeIfIsFunc(this.options, 'removeDOM')) {

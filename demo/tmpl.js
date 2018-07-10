@@ -13,25 +13,6 @@ var intercept = new Intercept({
   }
 })
 
-// var intercept = require('../src/intercept.js');
-// intercept.init({
-//   gap: 1,
-//   // addDOM: function addDOM() {
-//   //   document.getElementById('test').style = 'block';
-//   // },
-//   // removeDOM: function removeDOM() {
-//   //   document.getElementById('test').style = 'none';
-//   // },
-//   testEle: function () {
-//     return document.getElementById('test');
-//   }(),
-//   height: 70,
-//   judgeHeight: function judgeHeight(ele, val, height) {
-//     document.getElementById('test').innerText = val;
-//     return document.getElementById('test').offsetHeight <= 60;
-//   }
-// });
-
 var getDOMproperty = function getDOMproperty(id, key) {
   var ele = document.getElementById(id);
   var r = null;
